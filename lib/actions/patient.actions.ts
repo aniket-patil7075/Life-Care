@@ -6,8 +6,9 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+import {InputFile} from "node-appwrite/file"
 
-// CREATE APPWRITE USER
+
 export const createUser = async (user: CreateUserParams) => {
   try {
     // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
@@ -41,4 +42,18 @@ export const getUser = async (userId: string )=> {
         console.log(error);
         
     }
+}
+
+export const registerPatient = async({identificationDocument , ...patient}: RegisterUserParams) => {
+  try {
+    let file;
+    if(identificationDocument){
+      const inputFile = InputFile.fromBuffer(
+        identificationDocument?.get('blobFile') as Blob,
+        identificationDocument?.get('fileName') as string,
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
