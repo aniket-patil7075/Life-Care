@@ -13,7 +13,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { PatientFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
-import { createUser } from "@/lib/actions/patient.actions"
+import { createUser, registerPatient } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
@@ -42,7 +42,6 @@ const RegisterForm = ({ user }: { user: User }) => {
         setIsLoading(true);
 
         let formData ;
-
         if(values.identificationDocument && values.identificationDocument.length > 0 ){
             const blobFile = new Blob([values.identificationDocument[0]],{
                 type: values.identificationDocument[0].type,
@@ -59,9 +58,12 @@ const RegisterForm = ({ user }: { user: User }) => {
                 identificationDocument : formData,
             }
 
-            const patient = await registerPatient(patientData);
+            // @ts-ignore
+            const newPatient = await registerPatient(patient);
 
-            if(patient) router.push(`patients/${user.$id}/new-appointment`)
+            if (newPatient) {
+              router.push(`/patients/${user.$id}/new-appointment`);
+            }
 
         } catch (error) {
             console.log(error)
