@@ -1,5 +1,6 @@
 "use client"
-
+// services@codealpha.tech frontend
+// career@saeculumsolutions.com react
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -59,11 +60,10 @@ const RegisterForm = ({ user }: { user: User }) => {
             }
 
             // @ts-ignore
-            const newPatient = await registerPatient(patient);
+            const patient = await registerPatient(patientData);
 
-            if (newPatient) {
-              router.push(`/patients/${user.$id}/new-appointment`);
-            }
+            if(patient) router.push(`/patients/${user.$id}/new-appointment`)
+            
 
         } catch (error) {
             console.log(error)
@@ -117,6 +117,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                         control={form.control}
                         name="birthdate"
                         label="Date of Birth"
+                        dateFormat="MM/dd/yyyy"
                     />
 
                     <CustomFormField
